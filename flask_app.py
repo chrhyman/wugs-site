@@ -1,7 +1,14 @@
 from flask import Flask, redirect, render_template, request, url_for
+from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
+sql = "mysql+mysqlconnector://{0}:{1}@{2}/{3}".format("wugs", "sqlpassword",
+    "wugs.mysql.pythonanywhere-services.com", "wugs$comments")
+app.config["SQLALCHEMY_DATABASE_URI"] = sql
+app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
+
+db = SQLAlchemy(app)
 
 comments = []
 @app.route('/', methods=['GET', 'POST'])
