@@ -24,7 +24,11 @@
 		<li><a href="/">Statistics</a></li>
 		<li><a href="/">Settings</a></li>
 	</ul>
-	<p id="layoutdims">login info will go here</p>
+	<p id="layoutdims">{% if username %}
+	Hello, {{ username }}!
+	{% else %}
+	You are not logged in.
+	{% endif %}</p>
 </div>
 <div class="colmask leftmenu">
 	<div class="colleft">
