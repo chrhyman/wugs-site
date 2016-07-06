@@ -11,6 +11,11 @@ data = {}
 def index():
     if 'username' in session:
         data['username'] = session['username']
+    else:
+        try:
+            del data['username']
+        except KeyError:
+            pass
     return render_template('main_page.html', data=data, active='home')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -18,12 +23,7 @@ def login():
     if request.method == 'POST':
         session['username'] = request.form['username']
         return redirect(url_for('index'))
-    return '''
-        <form action="" method="post">
-            <p><input type=text name=username>
-            <p><input type=submit value=Login>
-        </form>
-    '''
+    return render_template('login.html', data=data, active='login')
 
 @app.route('/logout')
 def logout():

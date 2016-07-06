@@ -20,10 +20,10 @@ body {
 	font-family: 'Roboto', sans serif;
 }
 a {
-	color:#6CB0DE;
+	color:#4783AB;
 }
 a:hover {
-	color:#4783AB;
+	color:#6CB0DE;
 	text-decoration:none;
 }
 h1, h2, h3 {
@@ -163,6 +163,15 @@ img {
 	width:21%;			/* left column content width (column width minus left and right padding) */
 	left:6%;			/* (right column left and right padding) plus (left column left padding) */
 }
+/* Full page settings */
+.fullpage {
+	background:#fff;		/* page background colour */
+}
+.fullpage .col1 {
+	width:96%;			/* page width minus left and right padding */
+	left:2%;			/* page left padding */
+}
+
 /* Footer styles */
 #footer {
 	clear:both;

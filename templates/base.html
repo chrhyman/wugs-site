@@ -9,13 +9,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" media="screen" />
         <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" />
         {% endblock %}
     </head>
 
 <body>
-
+{% block header %}
 <div id="header" class="header">
         <img src="{{ url_for('static', filename='wug-transp.png') }}" />
         <h1>wugs' website</h1>
@@ -36,8 +36,16 @@
 	        {%- endif -%}>Settings</a></li>
 	    {% endblock %}
 	</ul>
-	<p id="layoutdims">{% block login %}{% endblock %}</p>
+	<p id="layoutdims">{% block login -%}
+    {% if data['username'] %}
+	{{ data['username'] }} | <a href="/logout">logout</a>
+	{% else %}
+	You are not logged in. | <a href="/login">login</a>
+	{% endif %}
+    {%- endblock %}</p>
 </div>
+{% endblock %}
+{% block columns %}
 <div class="colmask leftmenu">
 	<div class="colleft">
 		<div class="col1">
@@ -48,6 +56,7 @@
 		</div>
 	</div>
 </div>
+{% endblock %}
 <div id="footer">
 	<p>Chris Hyman © 2016</p>
 </div>
