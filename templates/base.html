@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        {% block head %}
+        <title>{% block title %}{% endblock %}</title>
+
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+        <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+        {% endblock %}
+    </head>
+
+<body>
+
+<div id="header" class="header">
+        <img src="{{ url_for('static', filename='wug-transp.png') }}" />
+        <h1>wugs' website</h1>
+        <h2>a simple game interface for friends</h2>
+	<ul>
+	    {% block nav %}
+	        <li><a href="/"
+	        {%- if active == 'home' -%}class="active"
+	        {%- endif -%}>Home</a></li>
+	        <li><a href="/games"
+	        {%- if active == 'games' -%}class="active"
+	        {%- endif -%}>Games</a></li>
+	        <li><a href="/"
+	        {%- if active == 'stats' -%}class="active"
+	        {%- endif -%}>Statistics</a></li>
+	        <li><a href="/"
+	        {%- if active == 'settings' -%}class="active"
+	        {%- endif -%}>Settings</a></li>
+	    {% endblock %}
+	</ul>
+	<p id="layoutdims">{% block login %}{% endblock %}</p>
+</div>
+<div class="colmask leftmenu">
+	<div class="colleft">
+		<div class="col1">
+			{% block content %}{% endblock %}
+		</div>
+		<div class="col2">
+			{% block sidebar %}{% endblock %}
+		</div>
+	</div>
+</div>
+<div id="footer">
+	<p>Chris Hyman © 2016</p>
+</div>
+
+</body>
+</html>

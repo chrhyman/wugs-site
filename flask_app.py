@@ -5,11 +5,13 @@ from flask import session, request
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
+data = {}
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if 'username' in session:
-        return render_template('main_page.html', username=session['username'])
-    return render_template('main_page.html')
+        data['username'] = session['username']
+    return render_template('main_page.html', data=data, active='home')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -28,5 +30,9 @@ def logout():
     # remove the username from the session if it's there
     session.pop('username', None)
     return redirect(url_for('index'))
+
+@app.route('/games')
+def games():
+    return render_template('main_page.html', data=data, active='games')
 
 app.secret_key = '3r3i0bkn%437941ua07k419244w'
