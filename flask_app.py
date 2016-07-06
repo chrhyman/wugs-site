@@ -1,9 +1,25 @@
 from flask import Flask
 from flask import render_template, redirect, url_for
 from flask import session, request
+from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
+
+SQL_URI = "mysql+mysqlconnector://{0}:{1}@{2}/{3}".format("wugs", "sqlpassword",
+    "wugs.mysql.pythonanywhere-services.com", "wugs$users")
+app.config["SQLALCHEMY_DATABASE_URI"] = SQL_URI
+app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
+
+db = SQLAlchemy(app)
+
+class User(db.Model):
+
+    __tablename__ = "users"
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), nullable=False, unique=True)
+    password = db.Column(db.String(64))
 
 data = {}
 
