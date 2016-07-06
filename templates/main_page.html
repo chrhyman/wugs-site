@@ -7,11 +7,43 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
         <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" />
     </head>
 
-    <body>
-        <p>Hello, world!</p>
-    </body>
+<body>
+
+<div id="header" class="header">
+        <img src="{{ url_for('static', filename='wug-transp.png') }}" />
+        <h1>wugs' website</h1>
+        <h2>a simple game interface for friends</h2>
+	<ul>
+		<li><a href="/" class="active">Home</a></li>
+		<li><a href="/">Game listing</a></li>
+		<li><a href="/">Statistics</a></li>
+		<li><a href="/">Settings</a></li>
+	</ul>
+	<p id="layoutdims">login info will go here</p>
+</div>
+<div class="colmask leftmenu">
+	<div class="colleft">
+		<div class="col1">
+			<!-- main content -->
+			<h2>This is the main column</h2>
+            <p>Welcome to the website. I'll write a thing here eventually.</p>
+			<!-- end -->
+		</div>
+		<div class="col2">
+			<!-- sidebar -->
+            <p>Details about something or other, right? IDK</p>
+			<!-- end -->
+		</div>
+	</div>
+</div>
+<div id="footer">
+	<p>Chris Hyman © 2016</p>
+</div>
+
+</body>
 </html>
