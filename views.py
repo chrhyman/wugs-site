@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, redirect, url_for, session, request
+from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import session, request
 
 from app import db
 from models import User
@@ -24,18 +25,22 @@ def login():
         tryp = request.form['password']
         if validate_user(tryu, tryp):
             session['username'] = tryu.username
-            return redirect(url_for('index'))
+            flash('Successfully logged in!')
+            return redirect(url_for('.index'))
         session['failed'] = True
     return render_template('login.html', active='login')
 
 @mod.route('/register', methods=['GET', 'POST'])
 def register():
+    if request.method == 'POST':
+        pass
     return render_template('register.html', active='register')
 
 @mod.route('/logout')
 def logout():
     session.pop('username', None)
-    return redirect(url_for('index'))
+    flash('Logged out.')
+    return redirect(url_for('.index'))
 
 @mod.route('/games')
 def games():

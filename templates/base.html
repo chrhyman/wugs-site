@@ -11,6 +11,9 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700|Roboto:400,700,400italic" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" media="screen" />
         <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         {% endblock %}
     </head>
 
@@ -20,8 +23,17 @@
         <img src="{{ url_for('static', filename='wug-transp.png') }}" />
         <h1>wugs' website</h1>
         <h2>a simple game interface for friends</h2>
+    {% with messages = get_flashed_messages() -%}
+        {%- if messages -%}
+        <div class="alerts">
+                {%- for message in messages -%}
+                    <div class="alert alert-warning">{{ message }}</div>
+                {%- endfor -%}
+        </div>
+        {%- endif -%}
+    {%- endwith -%}
 	<ul>
-	    {% block nav %}
+	    {% block nav -%}
 	        <li><a href="/"
 	        {%- if active == 'home' -%}class="active"
 	        {%- endif -%}>Home</a></li>
@@ -34,11 +46,11 @@
 	        <li><a href="/"
 	        {%- if active == 'settings' -%}class="active"
 	        {%- endif -%}>Settings</a></li>
-	    {% endblock %}
+	    {%- endblock -%}
 	</ul>
 	<p id="layoutdims">{% block login -%}
     {% if session['username'] %}
-	{{ session['username'] }} | <a href="/logout">logout</a>
+	Hello, {{ session['username'] }}! | <a href="/logout">logout</a>
 	{% else %}
 	You are not logged in. | <a href="/login">login</a>
 	{% endif %}

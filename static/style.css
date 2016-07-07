@@ -8,14 +8,15 @@
     normal accent: #6CB0DE
     dark accent: #4783AB
 */
-
+html, body {
+    overflow-x:hidden;
+}
 body {
 	margin:0;
 	padding:0;
 	border:0;			/* This removes the border around the viewport in old versions of IE */
 	width:100%;
 	background:#fff;
-	min-width:600px;    	/* Minimum width of layout - remove line if not required */
 	font-size:90%;
 	font-family: 'Roboto', sans serif;
 }
@@ -73,6 +74,11 @@ img {
 .header h1, .header h2 {
     position: relative;
     left: 10px;
+}
+.alerts {
+    clear: both;
+    width:50%;
+    margin: 0 auto;
 }
 #header ul {
 	clear:left;
