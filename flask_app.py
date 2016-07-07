@@ -2,13 +2,14 @@ from flask import Flask
 from flask import render_template, redirect, url_for
 from flask import session, request
 from flask.ext.sqlalchemy import SQLAlchemy
+import sqlalchemy.exc
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
-SQL_URI = "mysql+mysqlconnector://{0}:{1}@{2}/{3}".format("wugs", "sqlpassword",
+SQL = "mysql+mysqlconnector://{0}:{1}@{2}/{3}".format("wugs", "sqlpassword",
     "wugs.mysql.pythonanywhere-services.com", "wugs$users")
-app.config["SQLALCHEMY_DATABASE_URI"] = SQL_URI
+app.config["SQLALCHEMY_DATABASE_URI"] = SQL
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 
 db = SQLAlchemy(app)
@@ -21,6 +22,8 @@ class User(db.Model):
     username = db.Column(db.String(64), nullable=False, unique=True)
     password = db.Column(db.String(64))
 
+me = User(username='Chris', password='admin')
+
 data = {}
 
 @app.route('/', methods=['GET', 'POST'])
@@ -32,6 +35,10 @@ def index():
             del data['username']
         except KeyError:
             pass
+    try:
+        1+1
+    except sqlalchemy.exc.IntegrityError:
+        data['username'] = 'ERROR'
     return render_template('main_page.html', data=data, active='home')
 
 @app.route('/login', methods=['GET', 'POST'])
