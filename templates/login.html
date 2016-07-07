@@ -5,11 +5,19 @@
 {% block columns %}
 <div class="colmask fullpage">
 	<div class="col1">
-	    <h2>Login</h2>
-        <form action="" method="post">
-            <p><input type=text name=username>
-            <p><input type=submit value=Login>
-        </form>
+	    {% if session['username'] %}
+	        <p><br />You're already logged in as {{ session['username'] }}. Did you mean you want to <a href="/logout">logout</a>?</p>
+	    {% else %}
+	        <h2>Login</h2>
+            <form action="" method="post">
+                <p>Username: <input type=text name=username /></p>
+                <p>Password: <input type=password name=password /></p>
+                <p><input type=submit value=Login /></p>
+            </form>
+            {% if session['failed'] -%}
+            <p style="color:#cd0000;"><strong>Login attempt failed.</strong></p>
+            {%- endif %}
+        {% endif %}
     </div>
 </div>
 {% endblock %}

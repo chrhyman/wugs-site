@@ -8,7 +8,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700|Roboto:400,700,400italic" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" media="screen" />
         <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" />
         {% endblock %}
@@ -37,8 +37,8 @@
 	    {% endblock %}
 	</ul>
 	<p id="layoutdims">{% block login -%}
-    {% if data['username'] %}
-	{{ data['username'] }} | <a href="/logout">logout</a>
+    {% if session['username'] %}
+	{{ session['username'] }} | <a href="/logout">logout</a>
 	{% else %}
 	You are not logged in. | <a href="/login">login</a>
 	{% endif %}

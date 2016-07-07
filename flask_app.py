@@ -1,8 +1,7 @@
-from flask import Flask
-from flask import render_template, redirect, url_for
-from flask import session, request
+from flask import Flask, render_template, redirect, url_for, session, request
 from flask.ext.sqlalchemy import SQLAlchemy
-import sqlalchemy.exc
+
+# import sqlalchemy.exc             sqlalchemy.exc.IntegrityError for duplicates
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -22,40 +21,36 @@ class User(db.Model):
     username = db.Column(db.String(64), nullable=False, unique=True)
     password = db.Column(db.String(64))
 
-me = User(username='Chris', password='admin')
+def validate_user(attempt, p):
+    if attempt:
+        if attempt.password == p:
+            return True
+    return False
 
-data = {}
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if 'username' in session:
-        data['username'] = session['username']
-    else:
-        try:
-            del data['username']
-        except KeyError:
-            pass
-    try:
-        1+1
-    except sqlalchemy.exc.IntegrityError:
-        data['username'] = 'ERROR'
-    return render_template('main_page.html', data=data, active='home')
+    return render_template('main_page.html', active='home')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    session.pop('failed', None)
     if request.method == 'POST':
-        session['username'] = request.form['username']
-        return redirect(url_for('index'))
-    return render_template('login.html', data=data, active='login')
+        tryu = User.query.filter_by(username=request.form['username']).first()
+        tryp = request.form['password']
+        if validate_user(tryu, tryp):
+            session['username'] = tryu.username
+            return redirect(url_for('index'))
+        session['failed'] = True
+    return render_template('login.html', active='login')
 
 @app.route('/logout')
 def logout():
-    # remove the username from the session if it's there
     session.pop('username', None)
     return redirect(url_for('index'))
 
 @app.route('/games')
 def games():
-    return render_template('main_page.html', data=data, active='games')
+    return render_template('main_page.html', active='games')
 
 app.secret_key = '3r3i0bkn%437941ua07k419244w'
