@@ -19,7 +19,6 @@ def index():
 
 @mod.route('/login', methods=['GET', 'POST'])
 def login():
-    session.pop('failed', None)
     if request.method == 'POST':
         tryu = User.query.filter_by(username=request.form['username']).first()
         tryp = request.form['password']
@@ -27,9 +26,11 @@ def login():
             session['username'] = tryu.username
             flash('Successfully logged in!')
             return redirect(url_for('.index'))
-        session['failed'] = True
+        flash('Login attempt failed. If you don\'t have an account, click "register". If you have been locked out of your account, contact Chris.')
     return render_template('login.html', active='login')
 
+
+### SET UP REGISTER!!!
 @mod.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
