@@ -8,7 +8,7 @@ db = SQLAlchemy(app)
 
 @app.errorhandler(404)
 def not_found(error):
-    return 'oops'
+    return render_template('404.html'), 404
 
 from views import mod
 app.register_blueprint(mod)
