@@ -29,12 +29,19 @@ def login():
         flash('Login attempt failed. If you don\'t have an account, click "register". If you have been locked out of your account, contact Chris.')
     return render_template('login.html', active='login')
 
-
-### SET UP REGISTER!!!
 @mod.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        pass
+        newu = request.form['username']
+        newp = request.form['password']
+        if User.query.filter_by(username=request.form['username']).first():
+            flash('That username is already taken.')
+            return redirect(url_for('.register'))
+        db.session.add(User(username=newu, password=newp))
+        db.session.commit()
+        message = 'Congrats %s! Your account has been created.' % newu
+        flash(message)
+        return redirect(url_for('.index'))
     return render_template('register.html', active='register')
 
 @mod.route('/logout')

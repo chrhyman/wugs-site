@@ -20,7 +20,7 @@
 <body>
 {% block header %}
 <div id="header" class="header">
-        <img src="{{ url_for('static', filename='wug-transp.png') }}" />
+        <a href="/"><img src="{{ url_for('static', filename='wug-transp.png') }}" /><img src="{{ url_for('static', filename='wug-transp.png') }}" style="position:absolute;z-index:9999;left:0px;" /></a>
         <h1>wugs' website</h1>
         <h2>a simple game interface for friends</h2>
     {% with messages = get_flashed_messages() -%}
@@ -32,28 +32,22 @@
         </div>
         {%- endif -%}
     {%- endwith -%}
-	<ul>
-	    {% block nav -%}
-	        <li><a href="/"
-	        {%- if active == 'home' -%}class="active"
-	        {%- endif -%}>Home</a></li>
-	        <li><a href="/games"
-	        {%- if active == 'games' -%}class="active"
-	        {%- endif -%}>Games</a></li>
-	        <li><a href="/"
-	        {%- if active == 'stats' -%}class="active"
-	        {%- endif -%}>Statistics</a></li>
-	        <li><a href="/"
-	        {%- if active == 'settings' -%}class="active"
-	        {%- endif -%}>Settings</a></li>
-	    {%- endblock -%}
-	</ul>
+	<ul>{% block nav %}
+        <li><a href="/"{% if active == 'home' %} class="active"
+        {%- endif %}>Home</a></li>
+        <li><a href="/games"{% if active == 'games' %} class="active"
+        {%- endif %}>Games</a></li>
+        <li><a href="/"{% if active == 'stats' %} class="active"
+        {%- endif %}>Statistics</a></li>
+        <li><a href="/"{% if active == 'settings' %} class="active"
+        {%- endif %}>Settings</a></li>
+	{% endblock %}</ul>
 	<p id="layoutdims">{% block login -%}
-    {% if session['username'] %}
+    {% if session['username'] -%}
 	Hello, {{ session['username'] }}! | <a href="/logout">logout</a>
-	{% else %}
+	{%- else -%}
 	You are not logged in. | <a href="/login">login</a>
-	{% endif %}
+	{%- endif %}
     {%- endblock %}</p>
 </div>
 {% endblock %}
