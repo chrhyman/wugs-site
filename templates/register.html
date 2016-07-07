@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block columns %}
+<div class="colmask fullpage">
+	<div class="col1">
+	    {% if session['username'] %}
+	        <p><br />You're already logged in as {{ session['username'] }}. Did you mean you want to <a href="/logout">logout</a>?</p>
+	    {% else %}
+	        <h2>Register</h2>
+	        <p>You need to register to do most things on this site. The purpose of registering is to let people see who they're playing with and so turn order is as clear as possible.</p>
+	        <p>Your username is entirely public and must be unique. Generally you can just use your first name, and just add an initial if you get a conflict. Passwords are used to provide a light barrier against cheating, however passwords are <strong>not encrypted</strong>! Do not use a password you use anywhere else. Seriously, use like, an animal. You don't have to use a certain number of weird-ass characters or digits. Honestly, "horse" is okay. Well, except not horse because I just used it. But yeah. Also, this isn't really registering. You don't give your email or anything. As soon as you click submit and it's accepted, your account bursts into existence. Easy-peasy.</p>
+	        <p>Please log in after registering. Sorry, I'm lazy at programming.</p>
+            <form action="" method="post">
+                <p>Your new username: <input type=text name=username /></p>
+                <p>Your new password: <input type=password name=password /></p>
+                <p><input type=submit value=Register /></p>
+            </form>
+            {% if session['failed'] -%}
+            <p style="color:#cd0000;"><strong>Registration attempt failed.</strong></p>
+            {%- endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
