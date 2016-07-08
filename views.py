@@ -26,7 +26,9 @@ def login():
             session['username'] = tryu.username
             flash('Successfully logged in!')
             return redirect(url_for('.index'))
-        flash('Login attempt failed. If you don\'t have an account, click "register". If you have been locked out of your account, contact Chris.')
+        flash('Login attempt failed. If you don\'t have an account, click \
+            "register". If you have been locked out of your account, contact \
+            Chris.')
     return render_template('login.html', active='login')
 
 @mod.route('/register', methods=['GET', 'POST'])
@@ -52,4 +54,12 @@ def logout():
 
 @mod.route('/games')
 def games():
-    return render_template('main_page.html', active='games')
+    return render_template('games.html', active='games')
+
+@mod.route('/stats')
+def stats():
+    return render_template('stats.html', active='stats')
+
+@mod.route('/settings')
+def settings():
+    return render_template('settings.html', active='settings')
