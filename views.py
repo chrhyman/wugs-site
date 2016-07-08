@@ -52,6 +52,10 @@ def logout():
     flash('Logged out.')
     return redirect(url_for('.index'))
 
+@mod.route('/auth')
+def auth():
+    return render_template('auth.html')
+
 @mod.route('/games')
 def games():
     return render_template('games.html', active='games')

@@ -12,3 +12,6 @@ def not_found(error):
 
 from views import mod
 app.register_blueprint(mod)
+
+from poker.views import mod_poker
+app.register_blueprint(mod_poker)
