@@ -191,3 +191,11 @@ img {
 	padding:10px;
 	margin:0;
 }
+/* Special styles */
+#poker td:nth-child(1) {
+    text-align: right;
+}
+#poker td {
+    padding: 2px;
+    vertical-align: middle;
+}

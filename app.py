@@ -1,8 +1,12 @@
 from flask import Flask, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
 
+from poker.poker import handler as p_handler
+
 app = Flask(__name__)
 app.config.from_object('config')
+
+app.jinja_env.globals.update(p_handler=p_handler)
 
 db = SQLAlchemy(app)
 

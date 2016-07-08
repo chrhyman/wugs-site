@@ -2,11 +2,26 @@
 
 {% block title %}Poker{% endblock %}
 
-{% block columns %}
-<div class="colmask fullpage">
-	<div class="col1">
-	    <h2>Hello!</h2>
-	    <p>Hello!</p>
-    </div>
-</div>
+{% block content %}
+    <h2>Video Poker</h2>
+    {% if gamedata.inprog %}
+        {% if session['username'] != gamedata.player and gamedata.player %}
+            <!-- Someone else is already playing! -->
+        {% elif session['username'] == gamedata.player %}
+            {{ p_handler(gamedata) }}
+        {% else %}
+            <!-- error -- in progress with no player -->
+        {% endif %}
+    {% else %}
+        <p>No one is currently playing. Click below to start!</p>
+        <form action="" method="post">
+            <input type="submit" name="newgame" value="New Game" />
+        </form>
+    {% endif %}
+{% endblock %}
+{% block sidebar %}
+<h3>Currently playing:</h3>
+<p>{% if gamedata.player %}{{ gamedata.player }}{% else %}No one.{% endif %}</p>
+<h3>Rules</h3>
+<p>This is where rules will eventually go.</p>
 {% endblock %}
