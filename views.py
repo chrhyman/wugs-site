@@ -43,7 +43,7 @@ def register():
         db.session.commit()
         message = 'Congrats %s! Your account has been created.' % newu
         flash(message)
-        return redirect(url_for('.index'))
+        return redirect(url_for('.login'), code=307)
     return render_template('register.html', active='register')
 
 @mod.route('/logout')
