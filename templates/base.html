@@ -46,7 +46,7 @@
     {% if session['username'] -%}
 	Hello, {{ session['username'] }}! | <a href="/logout">logout</a>
 	{%- else -%}
-	You are not logged in. | <a href="/login">login</a>
+	You are not logged in. | <a href="/login">login</a> or <a href="/register">register</a>
 	{%- endif %}
     {%- endblock %}</p>
 </div>
