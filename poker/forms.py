@@ -34,7 +34,7 @@ player_no_bankroll = '''
 '''
 
 gametable = '''
-<form action="" method="post">
+<form id="p_main" action="" method="post" onsubmit="thebet.value=parseInt(bet.value)">
 <table id="p_game">
     <tr>
         <td colspan="6">paytable</td>
@@ -44,31 +44,35 @@ gametable = '''
         {cards}
     </tr>
     <tr id="p_cards">
-        <td>Keep:</td>
         {checkboxes}
     </tr>
     </tr>
-    <tr>
+    <tr class="p_text">
         <td> </td>
         <td> </td>
         <td>win</td>
-        <td>bet</td>
+        <td>
+        <table style="margin:0 auto;"><tr><td style="padding-top:7px;">Bet&nbsp;</td><td><output name="bet" for="b1 bm" style="font-size:14pt;">1</outcome></td></tr></table>
+        </td>
         <td>creds</td>
         <td> </td>
     </tr>
-    <tr>
+    <tr class="p_text">
         <td> </td>
         <td> </td>
-        <td>hand</td>
-        <td>(invis)</td>
+        <td>{hand}</td>
+        <td><input name="thebet" style="display:none;" /></td>
         <td>$bank</td>
         <td> </td>
     </tr>
     <tr>
+        <td style="colspan:6;padding:15px;"></td>
+    </tr>
+    <tr class="p_text">
         <td> </td>
         <td> </td>
-        <td>bet 1</td>
-        <td>bet max</td>
+        <td><button type="button" id="b1" value="1" onclick="if(parseInt(bet.value)==5){{bet.value=1}}else{{bet.value=parseInt(bet.value)+1}}">Bet 1</button></td>
+        <td><button type="button" id="bm" onclick="bet.value=5;document.getElementById('p_main').submit();">Bet Max</button></td>
         <td>deal</td>
         <td> </td>
     </tr>
@@ -77,6 +81,7 @@ gametable = '''
 '''
 
 checkboxes = '''
+        <td>Keep:</td>
         <td><input type="checkbox" name="c1" value"c1" /></td>
         <td><input type="checkbox" name="c2" value"c2" /></td>
         <td><input type="checkbox" name="c3" value"c3" /></td>
@@ -85,6 +90,7 @@ checkboxes = '''
 '''
 
 no_checkboxes = '''
+        <td> </td>
         <td> </td>
         <td> </td>
         <td> </td>

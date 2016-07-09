@@ -6,7 +6,7 @@ import poker.forms as forms
 from poker.cards import Card, Deck, Hand, Bank
 import poker.pokerwin
 
-CARD_BACK = '<td><img src="/static/cards/cardback.png" width="100px" /></td>'
+CARD_BACK = '<td><img src="/static/cards/cardback.png" width="100px" /></td>\n'
 
 class Poker:
     def __init__(self):
@@ -14,6 +14,7 @@ class Poker:
         self.deck.standard()
         self.deck.shuffle()
         self.hand = Hand()
+        self.deck.moveNum(self.hand, 5)
         self.draw = 0
         self.win = poker.pokerwin.Win()
 
@@ -88,15 +89,22 @@ def handler(data):
     if gs == 1:
         output = forms.player_no_bankroll
     else:
+        allcards = ''.join('<td>{}</td>\n'.format(
+            str(card)) for card in data.game.hand.cards)
+        cb = forms.no_checkboxes
         if gs == 2:
-            cb = forms.checkboxes
             allcards = ''.join(CARD_BACK for i in range(5))
         elif gs == 3:
-            cb = forms.no_checkboxes
-        output = forms.gametable.format(cards=allcards, checkboxes=cb)
-
+            cb = forms.checkboxes
+        elif gs == 4:
+            pass
+        hand = ' '
+        if data.game.win.winstr:
+            hand = data.game.win.winstr
+        keywords = {'cards': allcards, 'checkboxes': cb, 'hand': hand}
+        output = forms.gametable.format(**keywords)
     output += forms.quit
     output = Markup(output)
-    if gs == 0:
+    if gs not in [1, 2, 3, 4]:
         output = 'ERROR! NO GAME IN PROGRESS.'
     return output

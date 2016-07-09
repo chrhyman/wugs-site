@@ -208,3 +208,7 @@ img {
 #p_cards {
     border-bottom: 1px solid #000;
 }
+.p_text {
+    text-align: center;
+    font-size: 14pt;
+}

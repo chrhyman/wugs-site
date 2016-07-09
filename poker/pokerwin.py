@@ -13,7 +13,7 @@ class Win:
         self.data = {'flsuit': None, 'strhi': None, 'quad': None, 'trip': None,
             'pairs': None}
         self.currhand = None
-        self.winstr = ''
+        self.winstr = None
         self.pay = 0
 
     def __str__(self):
@@ -90,7 +90,9 @@ class Win:
                 if d['pairs'][0] >= 11:
                     self.winstr = 'Jacks or Better'
                     self.pay = p['jacksbetter']
+                else:
+                    self.winstr = None
             else:
-                self.winstr = 'No win.'
+                self.winstr = None
         else:
             self.winstr = 'ERROR'
