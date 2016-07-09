@@ -6,11 +6,11 @@
     <h2>Video Poker</h2>
     {% if gamedata.inprog %}
         {% if session['username'] != gamedata.player and gamedata.player %}
-            <!-- Someone else is already playing! -->
+            <p>Unfortunately, someone is already playing, and the site can currently only handle one player at a time due to the way global variables are used. If you think that user is idle, please ping Chris to reset the app manually.</p>
         {% elif session['username'] == gamedata.player %}
             {{ p_handler(gamedata) }}
         {% else %}
-            <!-- error -- in progress with no player -->
+            <p>Error! Somehow a game is in progress with no player. This... shouldn't happen. Contact Chris to reset the server and troubleshoot!</p>
         {% endif %}
     {% else %}
         <p>No one is currently playing. Click below to start!</p>

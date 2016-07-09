@@ -120,7 +120,7 @@ class Bank:
     def set_to(self, s):
         self.bankroll = int(s)
 
-    def bet(self, b):
+    def doBet(self, b):
         self.bet = int(b)
         self.bankroll = self.bankroll - int(b)
 

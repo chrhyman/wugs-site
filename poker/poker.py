@@ -3,7 +3,7 @@ import copy
 from flask import Markup
 
 import poker.forms as forms
-from poker.cards import Card, Deck, Hand, Bank
+from poker.cards import Deck, Hand, Bank
 import poker.pokerwin
 
 CARD_BACK = '<td><img src="/static/cards/cardback.png" width="100px" /></td>\n'
@@ -14,7 +14,6 @@ class Poker:
         self.deck.standard()
         self.deck.shuffle()
         self.hand = Hand()
-        self.deck.moveNum(self.hand, 5)
         self.draw = 0
         self.win = poker.pokerwin.Win()
 
@@ -92,17 +91,30 @@ def handler(data):
         allcards = ''.join('<td>{}</td>\n'.format(
             str(card)) for card in data.game.hand.cards)
         cb = forms.no_checkboxes
+        betone, betmax = forms.betone, forms.betmax
+        betamt = 1
+        invis = forms.invis
+        dealbutton = forms.deal
+        bank = '{:.2f}'.format(data.creds.bankroll*data.denom/100)
         if gs == 2:
             allcards = ''.join(CARD_BACK for i in range(5))
         elif gs == 3:
             cb = forms.checkboxes
+            betone, betmax, invis = ' ', ' ', ' '
+            betamt = data.creds.bet
+            dealbutton = forms.redeal
         elif gs == 4:
             pass
         hand = ' '
         if data.game.win.winstr:
             hand = data.game.win.winstr
-        keywords = {'cards': allcards, 'checkboxes': cb, 'hand': hand}
+        keywords = {'cards': allcards, 'checkboxes': cb, 'hand': hand,
+            'betone': betone, 'betmax': betmax, 'betamt': betamt,
+            'invis': invis, 'creds': str(data.creds.bankroll),
+            'bank': bank, 'deal': dealbutton}
         output = forms.gametable.format(**keywords)
+    if data.error:
+        output += '<p><br />{}</p>'.format(data.error)
     output += forms.quit
     output = Markup(output)
     if gs not in [1, 2, 3, 4]:

@@ -17,6 +17,7 @@ class Gamedata:
         self.creds = creds
         self.game = Poker()
         self.keep = keep
+        self.error = None
 
     def reset(self):
         self.__init__()
@@ -28,6 +29,7 @@ def poker():
     if 'username' not in session:
         return redirect(url_for('app.auth'))
     if request.method == 'POST':
+        gamedata.error = None
         if request.form.get('quit', None):
             gamedata.reset()
         elif request.form.get('newgame', None):
@@ -39,4 +41,15 @@ def poker():
             gamedata.denom = int(request.form['denom'])
             gamedata.creds.set_to(gamedata.bankroll / gamedata.denom)
             gamedata.gamestate = 2
+        elif request.form.get('deal', None):
+            if gamedata.creds.bankroll - int(request.form['thebet']) < 0:
+                gamedata.error = '<strong>Error</strong>: You can\'t bet more than you have!'
+                gamedata.gamestate = 2
+            else:
+                gamedata.creds.doBet(request.form['thebet'])
+                gamedata.game.deal()
+                gamedata.game.checkwin()
+                gamedata.gamestate = 3
+        elif request.form.get('redeal', None):
+            pass
     return render_template('poker.html', gamedata=gamedata)
