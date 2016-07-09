@@ -23,5 +23,20 @@
 <h3>Currently playing:</h3>
 <p>{% if gamedata.player %}{{ gamedata.player }}{% else %}No one.{% endif %}</p>
 <h3>Rules</h3>
-<p>This is where rules will eventually go.</p>
+<p>Start by selecting your starting bankroll and the bet denomination.</p>
+<p>Next, bet one to five credits. Click "Deal" to make your bet.</p>
+<p>Your bet will be subtracted from your total credits, and you will be dealt five cards. You can then select zero to five of these cards to keep. Click "Deal" to replace the cards you didn't keep with new ones from the remaining cards in the deck.</p>
+<p>The goal is to get the best hand possible. The paytable shows the rankings of each hand and how much you would win based on your bet. This game is "Jacks or Better" (no wilds or jokers, aces count high and low, lowest winning hand is a pair of jacks).</p>
+<h3>Explanation of Poker Hands</h3>
+<ul style="padding:0px;">
+    <li><strong>Jacks or Better:</strong> A pair of jacks, queens, kings or aces.</li>
+    <li><strong>Two Pair:</strong> Two pairs of any rank.</li>
+    <li><strong>Three of a Kind:</strong> Three cards of any one rank.</li>
+    <li><strong>Straight:</strong> The five card ranks form a sequence with no gaps.</li>
+    <li><strong>Flush:</strong> All five cards are of the same suit.</li>
+    <li><strong>Full House:</strong> A three of a kind in one rank and a pair in another.</li>
+    <li><strong>Four of a Kind:</strong> Four cards of any one rank.</li>
+    <li><strong>Straight Flush:</strong> A straight where all five cards are of the same suit.</li>
+    <li><strong>Royal Flush:</strong> A straight flush of ten to ace.</li>
+</ul>
 {% endblock %}
