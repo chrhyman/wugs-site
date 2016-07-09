@@ -3,9 +3,9 @@ import random
 class Card:
     suits = ['Clubs', 'Diamonds', 'Hearts', 'Spades']
     psuits = ['♣', '♦', '❤', '♠']
-    ranks = [None, 'A', '2', '3', '4', '5', '6', '7', '8', '9', 'T',
+    ranks = ['BACK', 'A', '2', '3', '4', '5', '6', '7', '8', '9', 'T',
         'J', 'Q', 'K', 'A']
-    longranks = [None, 'Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+    longranks = ['BACK', 'Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10',
         'Jack', 'Queen', 'King', 'Ace']
     colors = ['red', 'black']
 
@@ -22,7 +22,10 @@ class Card:
             self.color = Card.colors[1]
 
     def __str__(self):
-        base = '<img src="/static/cards/{0}_of_{1}.png" width="{2}px" />'
+        if self.rank == 0:
+            base = '<img src="/static/cards/cardback.png" width="{2}px" />'
+        else:
+            base = '<img src="/static/cards/{0}_of_{1}.png" width="{2}px" />'
         return base.format(Card.longranks[self.rank].lower(),
             Card.suits[self.suit].lower(), self.width)
 
@@ -105,6 +108,24 @@ class Hand(Deck):
     def __init__(self, name=''):
         self.cards = []
         self.name = name
+
+class Bank:
+    def __init__(self, bankroll):
+        self.bankroll = int(bankroll)
+        self.bet = 0
+
+    def __str__(self):
+        return str(self.bankroll)
+
+    def set_to(self, s):
+        self.bankroll = int(s)
+
+    def bet(self, b):
+        self.bet = int(b)
+        self.bankroll = self.bankroll - int(b)
+
+    def win(self, w):
+        self.bankroll = self.bankroll + int(w)
 
 def randperm(n):
     r = list(range(n))

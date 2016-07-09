@@ -199,3 +199,12 @@ img {
     padding: 2px;
     vertical-align: middle;
 }
+#p_cards td {
+    text-align: center;
+}
+.p_cards td {
+    padding: 15px 15px 0px 15px;
+}
+#p_cards {
+    border-bottom: 1px solid #000;
+}
