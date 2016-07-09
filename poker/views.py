@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, flash
 from flask import session, request
 
 from poker.cards import Bank
@@ -17,6 +17,7 @@ class Gamedata:
         self.creds = creds
         self.game = Poker()
         self.keep = keep
+        self.hands = 0
         self.error = None
 
     def reset(self):
@@ -31,7 +32,12 @@ def poker():
     if request.method == 'POST':
         gamedata.error = None
         if request.form.get('quit', None):
+            if gamedata.gamestate > 1:
+                string = 'Thanks for playing! You started with ${:.2f} and ended with ${:.2f} after playing {} hands.'
+                flash(string.format(gamedata.bankroll/100,
+                    gamedata.creds.bankroll*gamedata.denom/100, gamedata.hands))
             gamedata.reset()
+            return redirect(url_for('.poker'))
         elif request.form.get('newgame', None):
             gamedata.inprog = True
             gamedata.player = session['username']
@@ -47,9 +53,15 @@ def poker():
                 gamedata.gamestate = 2
             else:
                 gamedata.creds.doBet(request.form['thebet'])
+                gamedata.game.reset()
                 gamedata.game.deal()
                 gamedata.game.checkwin()
                 gamedata.gamestate = 3
         elif request.form.get('redeal', None):
-            pass
+            gamedata.keep = [int(i) - 1 for i in request.form.getlist('keep')]
+            gamedata.game.keepAndDraw(gamedata.keep)
+            gamedata.game.checkwin()
+            gamedata.creds.win(gamedata.game.win.pay * gamedata.creds.bet)
+            gamedata.hands += 1
+            gamedata.gamestate = 4
     return render_template('poker.html', gamedata=gamedata)

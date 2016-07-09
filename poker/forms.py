@@ -12,7 +12,7 @@ player_no_bankroll = '''
     </tr>
     <tr>
         <td style="padding-top:9px;">Bankroll: $</td>
-        <td><output name="b" for="f t h r">0</output>
+        <td><output name="b" for="f t h r" id="b">0</output>
         <input name="broll" style="display:none;" /></td>
     </tr>
     <tr>
@@ -37,7 +37,90 @@ gametable = '''
 <form id="p_main" action="" method="post" onsubmit="thebet.value=parseInt(bet.value)">
 <table id="p_game">
     <tr>
-        <td colspan="6">paytable</td>
+        <td colspan="6">
+            <table id="pays">
+                <tr id="coins">
+                    <th>Coins bet:</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                </tr>
+                <tr id="htop">
+                    <th class="hand">Royal Flush</th>
+                    <td class="kol1">800</td>
+                    <td class="kol2">1600</td>
+                    <td class="kol3">2400</td>
+                    <td class="kol4">3200</td>
+                    <td class="kol5">4000</td>
+                </tr>
+                <tr>
+                    <th class="hand">Straight Flush</th>
+                    <td class="kol1">50</td>
+                    <td class="kol2">100</td>
+                    <td class="kol3">150</td>
+                    <td class="kol4">200</td>
+                    <td class="kol5">250</td>
+                </tr>
+                <tr>
+                    <th class="hand">Four of a Kind</th>
+                    <td class="kol1">25</td>
+                    <td class="kol2">50</td>
+                    <td class="kol3">75</td>
+                    <td class="kol4">100</td>
+                    <td class="kol5">125</td>
+                </tr>
+                <tr>
+                    <th class="hand">Full House</th>
+                    <td class="kol1">9</td>
+                    <td class="kol2">18</td>
+                    <td class="kol3">27</td>
+                    <td class="kol4">36</td>
+                    <td class="kol5">45</td>
+                </tr>
+                <tr>
+                    <th class="hand">Flush</th>
+                    <td class="kol1">6</td>
+                    <td class="kol2">12</td>
+                    <td class="kol3">18</td>
+                    <td class="kol4">24</td>
+                    <td class="kol5">30</td>
+                </tr>
+                <tr>
+                    <th class="hand">Straight</th>
+                    <td class="kol1">4</td>
+                    <td class="kol2">8</td>
+                    <td class="kol3">12</td>
+                    <td class="kol4">16</td>
+                    <td class="kol5">20</td>
+                </tr>
+                <tr>
+                    <th class="hand">Three of a Kind</th>
+                    <td class="kol1">3</td>
+                    <td class="kol2">6</td>
+                    <td class="kol3">9</td>
+                    <td class="kol4">12</td>
+                    <td class="kol5">15</td>
+                </tr>
+                <tr>
+                    <th class="hand">Two Pair</th>
+                    <td class="kol1">2</td>
+                    <td class="kol2">4</td>
+                    <td class="kol3">6</td>
+                    <td class="kol4">8</td>
+                    <td class="kol5">10</td>
+                </tr>
+                <tr>
+                    <th class="hand">Jacks or Better</th>
+                    <td class="kol1">1</td>
+                    <td class="kol2">2</td>
+                    <td class="kol3">3</td>
+                    <td class="kol4">4</td>
+                    <td class="kol5">5</td>
+                </tr>
+            </table>
+        </td>
     </tr>
     <tr class="p_cards">
         <td> </td>
@@ -50,25 +133,25 @@ gametable = '''
     <tr class="p_text">
         <td> </td>
         <td> </td>
-        <td>win</td>
+        <td>{win}</td>
         <td>
         <table style="margin:0 auto;"><tr><td style="padding-top:7px;">Bet&nbsp;</td><td><output name="bet" for="b1 bm" style="font-size:14pt;">{betamt}</outcome></td></tr></table>
         </td>
-        <td>{creds}</td>
+        <td>{creds} credits</td>
         <td> </td>
     </tr>
-    <tr class="p_text">
+    <tr class="p_text" style="height:40px;">
         <td> </td>
         <td> </td>
         <td>{hand}</td>
         <td>{invis}</td>
-        <td>${bank}</td>
+        <td><p style="font-size:10pt;">${bank}</p></td>
         <td> </td>
     </tr>
     <tr>
-        <td style="colspan:6;padding:15px;"></td>
+        <td style="padding:15px;colspan:6;"></td>
     </tr>
-    <tr class="p_text">
+    <tr class="p_text" style="height:50px">
         <td> </td>
         <td> </td>
         <td>{betone}</td>
@@ -80,7 +163,7 @@ gametable = '''
 </form>
 '''
 
-betone = '<button type="button" id="b1" value="1" onclick="if(parseInt(bet.value)==5){{bet.value=1}}else{{bet.value=parseInt(bet.value)+1}}">Bet 1</button>'
+betone = '<button type="button" id="b1" value="1" onclick="if(parseInt(bet.value)==5){bet.value=1}else{bet.value=parseInt(bet.value)+1};">Bet 1</button>'
 betmax = '<button type="button" id="bm" onclick="bet.value=5;">Bet Max</button>'
 
 invis = '<input name="thebet" style="display:none;" />'
@@ -89,21 +172,21 @@ deal = '<input type="submit" name="deal" value="Deal" />'
 redeal = '<input type="submit" name="redeal" value="Deal" />'
 
 checkboxes = '''
-        <td>Keep:</td>
-        <td><input type="checkbox" name="keep" value"1" /></td>
-        <td><input type="checkbox" name="keep" value"2" /></td>
-        <td><input type="checkbox" name="keep" value"3" /></td>
-        <td><input type="checkbox" name="keep" value"4" /></td>
-        <td><input type="checkbox" name="keep" value"5" /></td>
+        <td style="width:55px;">Keep:</td>
+        <td><input type="checkbox" id= "c0" name="keep" value="1" /></td>
+        <td><input type="checkbox" id= "c1" name="keep" value="2" /></td>
+        <td><input type="checkbox" id= "c2" name="keep" value="3" /></td>
+        <td><input type="checkbox" id= "c3" name="keep" value="4" /></td>
+        <td><input type="checkbox" id= "c4" name="keep" value="5" /></td>
 '''
 
 no_checkboxes = '''
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
+        <td style="width:55px;">{kept}</td>
+        <td><input type="checkbox" disabled{} /></td>
+        <td><input type="checkbox" disabled{} /></td>
+        <td><input type="checkbox" disabled{} /></td>
+        <td><input type="checkbox" disabled{} /></td>
+        <td><input type="checkbox" disabled{} /></td>
 '''
 
 quit = '''

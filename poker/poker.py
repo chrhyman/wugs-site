@@ -14,7 +14,6 @@ class Poker:
         self.deck.standard()
         self.deck.shuffle()
         self.hand = Hand()
-        self.draw = 0
         self.win = poker.pokerwin.Win()
 
     def reset(self):
@@ -23,31 +22,11 @@ class Poker:
     def deal(self, n=5):
         self.deck.moveNum(self.hand, n)
 
-    def keep(self):
-        keeps = input('Which cards would you like to keep? ')
-        stay = []
-        for char in keeps:
-            if char in ['1', '2', '3', '4', '5']:
-                stay.append(int(char) - 1)
-        stay = list(set(stay))
-        self.draw = 5 - len(stay)
-        rem = []
-        for i in range(5):
-            if i not in stay:
-                rem.append(self.hand.cards[i])
-        for drop in rem:
-            self.hand.remove(drop)
-
-    def __str__(self):
-        res = '\n'
-        for card in self.hand:
-            res += '\t'
-            res += str(card)
-        res += '\n'
-        for card in self.hand:
-            res += '\t   '
-            res += str(self.hand.cards.index(card) + 1)
-        return res
+    def keepAndDraw(self, l):
+        self.deck.shuffle()
+        drop = [i for i in range(5) if i not in l]
+        for index in drop:
+            self.hand.cards[index] = self.deck.popIndex()
 
     def checkwin(self):
         self.win.update(copy.deepcopy(self.hand))
@@ -88,30 +67,42 @@ def handler(data):
     if gs == 1:
         output = forms.player_no_bankroll
     else:
-        allcards = ''.join('<td>{}</td>\n'.format(
-            str(card)) for card in data.game.hand.cards)
-        cb = forms.no_checkboxes
+        allcards = ''.join('<td \
+            onclick="document.getElementById(\'c{c}\').click()">{img}</td>\
+            \n'.format(c=index, img=str(card)) for index, card in enumerate(
+            data.game.hand.cards))
+        kept = 'Kept:'
+        checked = ['', '', '', '', '']
+        for i in data.keep:
+            checked[i] = ' checked'
+        cb = forms.no_checkboxes.format(kept=kept, *checked)
         betone, betmax = forms.betone, forms.betmax
         betamt = 1
         invis = forms.invis
         dealbutton = forms.deal
         bank = '{:.2f}'.format(data.creds.bankroll*data.denom/100)
+        win = ''
         if gs == 2:
             allcards = ''.join(CARD_BACK for i in range(5))
+            kept = ''
+            checked = [' style="display:none;"' for i in range(5)]
+            cb = forms.no_checkboxes.format(kept=kept, *checked)
         elif gs == 3:
             cb = forms.checkboxes
             betone, betmax, invis = ' ', ' ', ' '
             betamt = data.creds.bet
             dealbutton = forms.redeal
         elif gs == 4:
-            pass
+            betamt = data.creds.bet
+            if data.game.win.winstr:
+                win = 'WIN: {}'.format(data.game.win.pay * data.creds.bet)
         hand = ' '
         if data.game.win.winstr:
             hand = data.game.win.winstr
         keywords = {'cards': allcards, 'checkboxes': cb, 'hand': hand,
             'betone': betone, 'betmax': betmax, 'betamt': betamt,
             'invis': invis, 'creds': str(data.creds.bankroll),
-            'bank': bank, 'deal': dealbutton}
+            'bank': bank, 'deal': dealbutton, 'win': win}
         output = forms.gametable.format(**keywords)
     if data.error:
         output += '<p><br />{}</p>'.format(data.error)

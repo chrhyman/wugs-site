@@ -1,8 +1,7 @@
-from poker.cards import Card
 from itertools import groupby
 
 class Win:
-    pays = {'royal': 250, 'straight flush': 50, 'quads': 25,
+    pays = {'royal': 800, 'straight flush': 50, 'quads': 25,
         'full house': 9, 'flush': 6, 'straight': 4, 'trips': 3, 'two pair': 2,
         'jacksbetter': 1, 'pair': 0, 'high card': 0}
 
@@ -79,10 +78,13 @@ class Win:
                 self.pay = p['full house']
             elif h['flush']:
                 self.winstr = 'Flush'
+                self.pay = p['flush']
             elif h['strt']:
                 self.winstr = 'Straight'
+                self.pay = p['straight']
             elif h['trips']:
                 self.winstr = 'Three of a Kind'
+                self.pay = p['trips']
             elif h['twopair']:
                 self.winstr = 'Two Pair'
                 self.pay = p['two pair']

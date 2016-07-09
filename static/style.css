@@ -212,3 +212,27 @@ img {
     text-align: center;
     font-size: 14pt;
 }
+#pays td {
+    text-align: right;
+    padding: 0px 10px 0px 65px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+#pays th {
+    padding-right: 20px;
+}
+#coins th {
+    text-align: right;
+    background-color: white;
+}
+.hand {
+    border-left: 1px solid black;
+    padding-left: 10px;
+}
+table#pays {
+    border-bottom: 1px solid black;
+    background-color: #F5F0FC;
+}
+#htop {
+    border-top: 1px solid black;
+}
