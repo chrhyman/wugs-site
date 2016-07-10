@@ -197,6 +197,7 @@ quit = '''
         <input type="text" style="display:none;" name="startmoney" value={startmoney} />
         <input type="text" style="display:none;" name="endmoney" value={endmoney} />
         <input type="text" style="display:none;" name="handsplayed" value={handsplayed} />
+        <input type="text" style="display:none;" name="room" value={room} />
         <input type="submit" name="submit" value="Submit to Leaderboards!" />
     </form></td><td>
     <form action="" method="post">

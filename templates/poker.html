@@ -3,17 +3,15 @@
 {% block title %}Poker{% endblock %}
 
 {% block content %}
-    <h2>Video Poker</h2>
+    <h2>Video Poker{% if room %} - Room {{ room }}{% endif %}</h2>
     {% if gamedata.inprog %}
-        {% if session['username'] != gamedata.player and gamedata.player %}
-            <p>Unfortunately, someone is already playing, and the site can currently only handle one player at a time due to the way global variables are used. If you think that user is idle, please ping Chris to reset the app manually.</p>
-        {% elif session['username'] == gamedata.player %}
+        {% if session['username'] == gamedata.player %}
             {{ p_handler(gamedata) }}
         {% else %}
-            <p>Error! Somehow a game is in progress with no player. This... shouldn't happen. Contact Chris to reset the server and troubleshoot!</p>
+            <p>Error! This room is already in use by someone else!</p>
         {% endif %}
     {% else %}
-        <p>No one is currently playing. Click below to start!</p>
+        <p>{% if room %}No one is currently playing in this room. {% endif %}Click below to start!</p>
         <form action="" method="post">
             <input type="submit" name="newgame" value="New Game" />
         </form>
@@ -21,7 +19,7 @@
 {% endblock %}
 {% block sidebar %}
 <h3>Currently playing:</h3>
-<p>{% if gamedata.player %}{{ gamedata.player }}{% else %}No one.{% endif %}</p>
+<p>{% for room in players %}{% if room == 'none' %}No one.{% else %}<strong>Room {{ room }}:</strong> <a href="/games/poker/room/{{ room }}">{{ players[room] }}</a><br />{% endif %}{% endfor %}</p>
 <h3>Rules</h3>
 <p>Start by selecting your starting bankroll and the bet denomination.</p>
 <p>Next, bet one to five credits. Click "Deal" to make your bet.</p>

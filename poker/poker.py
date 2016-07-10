@@ -82,7 +82,8 @@ def handler(data):
     if data.error:
         output += '<p><br />{}</p>'.format(data.error)
     submitdata = {'username': data.player, 'startmoney': data.bankroll,
-        'endmoney': data.creds.bankroll * data.denom, 'handsplayed': data.hands}
+        'endmoney': data.creds.bankroll * data.denom, 'handsplayed': data.hands,
+        'room': data.room}
     output += forms.quit.format(**submitdata)
     output = Markup(output)
     if gs not in [1, 2, 3, 4]:
