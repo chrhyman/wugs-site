@@ -1,6 +1,9 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask import session, request
 
+from app import db
+from poker.models import PokerGame
+
 from poker.cards import Bank
 from poker.poker import Poker
 
@@ -65,3 +68,16 @@ def poker():
             gamedata.hands += 1
             gamedata.gamestate = 4
     return render_template('poker.html', gamedata=gamedata)
+
+@mod_poker.route('/poker/submit', methods=['POST'])
+def poker_submit():
+    payload = {'username': request.form['username'],
+        'startmoney': request.form['startmoney'],
+        'endmoney': request.form['endmoney'],
+        'handsplayed': request.form['handsplayed']}
+    db.session.add(PokerGame(**payload))
+    db.session.commit()
+    message = 'You\'ve successfully submitted your poker game to the rankings!'
+    gamedata.reset()
+    flash(message)
+    return redirect(url_for('app.stats'))

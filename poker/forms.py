@@ -191,7 +191,15 @@ no_checkboxes = '''
 
 quit = '''
 <br /><br />
+<table><tr><td style="padding-right:10px;">
+    <form action="/games/poker/submit" method="post">
+        <input type="text" style="display:none;" name="username" value={username} />
+        <input type="text" style="display:none;" name="startmoney" value={startmoney} />
+        <input type="text" style="display:none;" name="endmoney" value={endmoney} />
+        <input type="text" style="display:none;" name="handsplayed" value={handsplayed} />
+        <input type="submit" name="submit" value="Submit to Leaderboards!" />
+    </form></td><td>
     <form action="" method="post">
         <input type="submit" name="quit" value="Quit" />
-    </form>
+    </form></td></tr></table>
 '''

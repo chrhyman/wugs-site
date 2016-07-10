@@ -3,6 +3,7 @@ from flask import session, request
 
 from app import db
 from models import User
+from poker.models import PokerGame
 
 def validate_user(attempt, p):
     if attempt:
@@ -62,7 +63,8 @@ def games():
 
 @mod.route('/stats')
 def stats():
-    return render_template('stats.html', active='stats')
+    pokergames = PokerGame.query.order_by(PokerGame.endmoney.desc())
+    return render_template('stats.html', active='stats', pokergames=pokergames)
 
 @mod.route('/settings')
 def settings():

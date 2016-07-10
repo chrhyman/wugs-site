@@ -3,8 +3,8 @@ import copy
 from flask import Markup
 
 import poker.forms as forms
-from poker.cards import Deck, Hand, Bank
-import poker.pokerwin
+from poker.cards import Deck, Hand
+from poker.pokerwin import Win
 
 CARD_BACK = '<td><img src="/static/cards/cardback.png" width="100px" /></td>\n'
 
@@ -14,7 +14,7 @@ class Poker:
         self.deck.standard()
         self.deck.shuffle()
         self.hand = Hand()
-        self.win = poker.pokerwin.Win()
+        self.win = Win()
 
     def reset(self):
         self.__init__()
@@ -31,31 +31,6 @@ class Poker:
     def checkwin(self):
         self.win.update(copy.deepcopy(self.hand))
         self.win.getWin()
-
-def playGame(money):
-    game = Poker()
-    money = Bank(money)
-    while True:
-        print('You have $' + str(money.bankroll))
-        x = int(input('bet'))
-        money.bet(x)
-        game.deal()
-        print('Your starting hand:', str(game))
-        game.checkwin()
-        print(str(game.win))
-        game.keep()
-        print('You kept:', str(game))
-        game.deal(game.draw)
-        print('Your final hand:', str(game))
-        game.checkwin()
-        print(str(game.win))
-        w = game.win.pay * money.bet
-        print('You win: $' + str(w))
-        money.win(w)
-        if input('Continue? ').lower() in ['n', 'no', 'exit', 'quit']:
-            print('Final bank: $' + str(money))
-            break
-        game.reset()
 
 # gamestate :   0 - no game in progress
 #               1 - there is a player, no bankroll
@@ -106,7 +81,9 @@ def handler(data):
         output = forms.gametable.format(**keywords)
     if data.error:
         output += '<p><br />{}</p>'.format(data.error)
-    output += forms.quit
+    submitdata = {'username': data.player, 'startmoney': data.bankroll,
+        'endmoney': data.creds.bankroll * data.denom, 'handsplayed': data.hands}
+    output += forms.quit.format(**submitdata)
     output = Markup(output)
     if gs not in [1, 2, 3, 4]:
         output = 'ERROR! NO GAME IN PROGRESS.'

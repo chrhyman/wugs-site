@@ -3,9 +3,26 @@
 {% block title %}Statistics{% endblock %}
 
 {% block content %}
-	<h2>Coming soon!</h2>
-    <p>I haven't implemented this feature yet. Fret not! It shall exist. At some point.</p>
+	<h2>Leaderboards</h2>
+	<h3>Poker</h3>
+    <table class="stats">
+        <tr>
+            <th>Player</th>
+            <th>Cashed Out</th>
+            <th>Starting Bankroll</th>
+            <th>Hands Played</th>
+        </tr>
+        {% for game in pokergames %}
+        <tr>
+            <td>{{ game.username }}</td>
+            <td>${{ '{:.2f}'.format(game.endmoney/100) }}</td>
+            <td>${{ '{:.2f}'.format(game.startmoney/100) }}</td>
+            <td>{{ game.handsplayed }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
 {% block sidebar %}
-    <p></p>
+    <p> </p>
+    <p>Hello</p>
 {% endblock %}
