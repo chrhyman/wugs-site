@@ -8,9 +8,6 @@
     normal accent: #6CB0DE
     dark accent: #4783AB
 */
-html, body {
-    overflow-x:hidden;
-}
 body {
 	margin:0;
 	padding:0;
@@ -38,10 +35,6 @@ p {
 }
 img {
 	margin:10px 0 5px;
-}
-#ads img {
-	display:block;
-	padding-top:10px;
 }
 
 /* Header styles */
@@ -74,6 +67,7 @@ img {
 .header h1, .header h2 {
     position: relative;
     left: 10px;
+    width: 95%;
 }
 .alerts {
     clear: both;
@@ -97,7 +91,7 @@ img {
 #header ul li a {
 	display:block;
 	float:left;
-	margin:0 0 0 1px;
+	margin:0 0 0 3px;
 	padding:3px 10px;
 	text-align:center;
 	background:#eee;

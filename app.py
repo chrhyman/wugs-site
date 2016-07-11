@@ -19,3 +19,6 @@ app.register_blueprint(mod)
 
 from poker.views import mod_poker
 app.register_blueprint(mod_poker)
+
+from res.views import mod_res
+app.register_blueprint(mod_res)
