@@ -3,7 +3,7 @@
 {% block title %}Poker{% endblock %}
 
 {% block content %}
-    <h2>Video Poker{% if room %} - Room {{ room }}{% endif %}</h2>
+    <h2>Video Poker{% if room or room == 0 %} - Room {{ room + 1 }}{% endif %}</h2>
     {% if gamedata.inprog %}
         {% if session['username'] == gamedata.player %}
             {{ p_handler(gamedata) }}

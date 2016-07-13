@@ -33,7 +33,7 @@ def getPlayersRooms():
     players = {}
     for room in gamedata:
         if room.inprog:
-            players[str(room.room)] = room.player
+            players[str(room.room + 1)] = room.player
     if players == {}:
         players = {'none': 'No one.'}
     return players
@@ -44,14 +44,14 @@ def poker():
         if request.form.get('newgame', None):
             for index, rooms in enumerate(gamedata):
                 if not rooms.inprog:
-                    return redirect(url_for('.pokerroom', room=index), code=307)
+                    return redirect(url_for('.pokerroom', room=index+1), code=307)
             flash('Sorry, all rooms are full!')
             return redirect(url_for('.poker'))
     return render_template('poker.html', gamedata=Gamedata(), players=getPlayersRooms())
 
 @mod_poker.route('/poker/room/<room>', methods=['GET', 'POST'])
 def pokerroom(room):
-    room = int(room)
+    room = int(room) - 1
     if 'username' not in session:
         return redirect(url_for('app.auth'))
     if room > len(gamedata) - 1:

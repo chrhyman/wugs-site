@@ -7,17 +7,17 @@ class GameError(Exception):
 class Player:
 
     ROLES = {
-            'error: none': 0,
-            'RESISTANCE': 10,
-            'MERLIN': 11,
-            'PERCIVAL': 12,
-            'A SPY': 20,
-            'ASSASSIN': 21,
-            'MORGANA': 22,
-            'MORDRED': 23,
-            'OBERON': 24,
-            'MORDSASSIN': 25,
-            'observing': 99
+            'error: none':  0,
+            'RESISTANCE':   10,
+            'MERLIN':       11,
+            'PERCIVAL':     12,
+            'A SPY':        20,
+            'ASSASSIN':     21,
+            'MORGANA':      22,
+            'MORDRED':      23,
+            'OBERON':       24,
+            'MORDSASSIN':   25,
+            'observing':    99
         }
 
     def __init__(self, name='no name'):
@@ -71,11 +71,16 @@ class Game:
         self.spycount = 0
         self.game_started = False
         self.game_finished = False
-        self.public_log = []
+        self.winner = 0 # 1 for res, 2 for spies
+
+        self.team_sizes = []
+        self.fails_needed = []
+
         self.mission = 1
         self.round = 1
         self.reswins = 0
         self.spywins = 0
+        self.shot_merlin = False
 
         self.leader_index = 0
         self.lady_index = 0
@@ -93,11 +98,11 @@ class Game:
         self.prs = []
 
         self.votelog = {
-                'rounds': [0, 0, 0, 0, 0],
-                'leader': [],
-                'approve': [],
-                'reject': [],
-                'onmission': []
+                'rounds':       [0, 0, 0, 0, 0],
+                'leaders':      [[], [], [], [], []],
+                'approvers':    [[], [], [], [], []],
+                'rejecters':    [[], [], [], [], []],
+                'onmission':    [[], [], [], [], []]
             }
 
     def resetGame(self):
@@ -133,6 +138,12 @@ class Game:
         self.game_started = True
         self.spycount = math.ceil(len(players) / 3)
 
+        spynum = [self.usemorgana, self.usemordred, self.useoberon].count(True)
+        spynum = spynum + 1 if self.combinemordassassin else spynum + 2
+
+        if spynum > self.spycount:
+            raise GameError('You have too few spies for your game options!')
+
         self.assignRoles()
 
     def assignRoles(self):
@@ -165,7 +176,6 @@ class Game:
             if self.players[i].role == 0:
                 self.players[i].role = 10 if i in self.res else 20
 
-
     def pick_role(self, role):
         rand_player = random.choice(range(self.p))
         if rand_player in self.prs:
@@ -178,5 +188,25 @@ class Game:
             else:
                 self.pick_role(role)
 
-    def nextLeader(self):
-        self.leader_index = (self.leader_index + 1) % self.p
+    def proposeTeam(self, leader, team):
+        if leader != self.leader_index:
+            return {'error':'You aren\'t the current leader!'}
+        elif len(team) != len(set(team)):
+            return {'error':'You have a duplicate member on your team!'}
+        elif len(team) != self.team_sizes[self.mission - 1]:
+            return {'error':'You didn\'t send the right size team!'}
+        else:
+            self.votelog['rounds'][self.mission] += 1
+            self.votelog['leaders'][self.mission].append(leader)
+            self.players_on_current_mission = team
+            return {'leader':leader, 'team':team}
+
+
+
+#    def nextLeader(self):
+#        self.leader_index = (self.leader_index + 1) % self.p
+
+
+# check win on nextRound() for win by round
+# check win on countVotes() for win by mission count
+# check win on shoot() for win by Merlin assassination

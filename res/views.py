@@ -2,12 +2,15 @@
 
 from flask import Blueprint, render_template#, make_response
 
+from res.res import Game
+
 mod_res = Blueprint('res', __name__, url_prefix='/games/res')
 
-#from models import User
+rooms = [Game() for i in range(30)]
 
 @mod_res.route('/', methods=['GET'])
 def index():
+    return str(dir(rooms[0]))
     return render_template('res.html')
 
 '''
